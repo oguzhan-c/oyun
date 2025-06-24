@@ -15505,7 +15505,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 93d812c32c1cfe643ab9d1d838f70305, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b56a4c03e584041c69e4ea51d4f50ae2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -58171,7 +58171,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "BA\u0130LAMAK \u0130\xC7\u0130N TIKLA"
+  m_Text: "BA\u015ELAMAK \u0130\xC7\u0130N TIKLAYINIZ"
 --- !u!222 &1461317203
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -60244,10 +60244,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87d777b7840ce01428e9c12f0690c751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberGen: 0
-  displayText: 
-  textObject: {fileID: 0}
-  displayingHint: 0
 --- !u!114 &1515909488
 MonoBehaviour:
   m_ObjectHideFlags: 0
