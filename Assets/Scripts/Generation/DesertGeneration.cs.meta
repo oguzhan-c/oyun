@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 9c4897dc5893d9441aec10cc61118b7e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - timPlay: {instanceID: 0}
+  - doozPlay: {instanceID: 0}
+  - clairePlay: {instanceID: 0}
+  - theBossPlay: {instanceID: 0}
+  - vegasPlay: {instanceID: 0}
+  - mariaPlay: {instanceID: 0}
+  - arissaPlay: {instanceID: 0}
+  - fakeCam: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
