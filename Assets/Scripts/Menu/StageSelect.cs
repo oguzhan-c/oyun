@@ -34,31 +34,18 @@ public class StageSelect : MonoBehaviour
     public GameObject loadText;
     public static int stageShowingExternal;
     public GameObject specialLeft;
-    public GameObject extraSpecialRight;
-    public GameObject extraSpecialLeft;
-    public GameObject extraSpecialPlay;
-    public bool showingBlock;
     public bool pressingButton;
     public bool selectedStageNow;
     public bool isMoving;
-    public bool canMoveToBlock;
-    public bool blockBarrageOnly;
-    public bool startingBlock;
 
     void Update()
     {
         stageShowingExternal = stageShowing;
-        if (stageShowing == 5 && UnlockBlock.isVisible == 1 && showingBlock == false)
-        {
-            StartCoroutine(ShowBlock());
-            showingBlock = true;
-        }
 
-        if (Input.GetButton("RBButton") && pressingButton == false && selectedStageNow == false && MashAbility.onSpecial == false)
+        if (Input.GetButton("RBButton") && pressingButton == false && selectedStageNow == false)
         {
             pressingButton = true;
             StartCoroutine(ReleaseButtons());
-            MashAbility.showSpecial = false;
             if (stageShowing == 1)
             {
                 theCamera.GetComponent<Animator>().Play("DesertToIce");
@@ -119,28 +106,17 @@ public class StageSelect : MonoBehaviour
             }
             if (stageShowing == 4)
             {
-                theCamera.GetComponent<Animator>().Play("TownToMoon");
-                stageShowing += 1;
-                if (GlobalUnlocks.moonUnlock == 0)
-                {
-                    playButtonText.GetComponent<Text>().text = "LOCKED!";
-                    pressPlay.GetComponent<Button>().interactable = false;
-                    playLockout.SetActive(true);
-                }
+                theCamera.GetComponent<Animator>().Play("TownToDesert");
+                stageShowing = 1;
+                playButtonText.GetComponent<Text>().text = "PLAY STAGE";
+                pressPlay.GetComponent<Button>().interactable = true;
+                playLockout.SetActive(false);
                 StartCoroutine(ButtonDelay());
                 return;
             }
-            if (stageShowing == 5 && canMoveToBlock == true && UnlockBlock.isVisible == 1)
-            {
-                canMoveToBlock = false;
-                theCamera.GetComponent<Animator>().Play("MoonToBlock");
-                stageShowing = 1;
-                extraSpecialRight.SetActive(false);
-                StartCoroutine(BlockSeq());
-            }
         }
 
-        if (Input.GetButton("LBButton") && pressingButton == false && selectedStageNow == false && MashAbility.onSpecial == false)
+        if (Input.GetButton("LBButton") && pressingButton == false && selectedStageNow == false)
         {
             pressingButton = true;
             StartCoroutine(ReleaseButtons());
@@ -193,47 +169,8 @@ public class StageSelect : MonoBehaviour
                 StartCoroutine(ButtonDelay());
                 return;
             }
-            if (stageShowing == 5)
-            {
-                extraSpecialRight.SetActive(false);
-                theCamera.GetComponent<Animator>().Play("MoonToTown");
-                stageShowing -= 1;
-                canMoveToBlock = false;
-                if (GlobalUnlocks.townUnlock == 0)
-                {
-                    playButtonText.GetComponent<Text>().text = "LOCKED!";
-                    pressPlay.GetComponent<Button>().interactable = false;
-                    playLockout.SetActive(true);
-                }
-                else
-                {
-                    playButtonText.GetComponent<Text>().text = "PLAY STAGE";
-                    pressPlay.GetComponent<Button>().interactable = true;
-                    playLockout.SetActive(false);
-                }
-                StartCoroutine(ButtonDelay());
-                StartCoroutine(ChangeToFalse());
-                return;
-            }
-
-            if (blockBarrageOnly == true)
-            {
-                blockBarrageOnly = false;
-                theCamera.GetComponent<Animator>().Play("BlockToMoon");
-                stageShowing = 5;
-                extraSpecialLeft.SetActive(false);
-                extraSpecialPlay.SetActive(false);
-                StartCoroutine(BackToMoon());
-            }
         }
-        if (Input.GetButton("Jump") && pressingButton == false && selectedStageNow == false && isMoving == false && MashAbility.onSpecial == false && blockBarrageOnly == true && startingBlock == true)
-        {
-            startingBlock = false;
-            pressPlay.SetActive(false);
-            fadeOut.SetActive(true);
-            StartCoroutine(FadeToBlocky());
-        }
-        if (Input.GetButton("Jump") && pressingButton == false && selectedStageNow == false && isMoving == false && MashAbility.onSpecial == false && blockBarrageOnly == false)
+        if (Input.GetButton("Jump") && pressingButton == false && selectedStageNow == false && isMoving == false)
         {
             if (stageShowing == 1)
             {
@@ -267,18 +204,10 @@ public class StageSelect : MonoBehaviour
                 StartCoroutine(CharSelect());
                 return;
             }
-            if (stageShowing == 5 && GlobalUnlocks.moonUnlock == 1)
-            {
-                isMoving = true;
-                specialLeft.SetActive(false);
-                theCamera.GetComponent<Animator>().Play("CharFromMoon");
-                StartCoroutine(CharSelect());
-                return;
-            }
         }
 
 
-        if (Input.GetButton("Jump") && pressingButton == false && selectedStageNow == true && MashAbility.onSpecial == false)
+        if (Input.GetButton("Jump") && pressingButton == false && selectedStageNow == true)
         {
             pressingButton = true;
             pressPlay.SetActive(false);
@@ -287,7 +216,7 @@ public class StageSelect : MonoBehaviour
             StartCoroutine(FadeToPlay());
         }
 
-        if (Input.GetButton("Fire1") && pressingButton == false && selectedStageNow == true && MashAbility.onSpecial == false)
+        if (Input.GetButton("Fire1") && pressingButton == false && selectedStageNow == true)
         {
             pressingButton = true;
             pressPlay.SetActive(false);
@@ -296,7 +225,7 @@ public class StageSelect : MonoBehaviour
             StartCoroutine(FadeToPlay());
         }
 
-        if (Input.GetButton("Fire2") && pressingButton == false && selectedStageNow == true && GlobalUnlocks.doozyUnlock == 1 && MashAbility.onSpecial == false)
+        if (Input.GetButton("Fire2") && pressingButton == false && selectedStageNow == true && GlobalUnlocks.doozyUnlock == 1)
         {
             pressingButton = true;
             pressPlay.SetActive(false);
@@ -305,7 +234,7 @@ public class StageSelect : MonoBehaviour
             StartCoroutine(FadeToPlay());
         }
 
-        if (Input.GetButton("Fire3") && pressingButton == false && selectedStageNow == true && GlobalUnlocks.claireUnlock == 1 && MashAbility.onSpecial == false)
+        if (Input.GetButton("Fire3") && pressingButton == false && selectedStageNow == true && GlobalUnlocks.claireUnlock == 1)
         {
             pressingButton = true;
             pressPlay.SetActive(false);
@@ -314,7 +243,7 @@ public class StageSelect : MonoBehaviour
             StartCoroutine(FadeToPlay());
         }
 
-        if (Input.GetButton("RBButton") && pressingButton == false && selectedStageNow == true && GlobalUnlocks.bossUnlock == 1 && MashAbility.onSpecial == false)
+        if (Input.GetButton("RBButton") && pressingButton == false && selectedStageNow == true && GlobalUnlocks.bossUnlock == 1)
         {
             pressingButton = true;
             pressPlay.SetActive(false);
@@ -326,7 +255,6 @@ public class StageSelect : MonoBehaviour
 
     void Start()
     {
-        MashAbility.onSpecial = false;
         stageShowing = 1;
         stageToGoTo = 4;
         if (GlobalUnlocks.doozyUnlock == 1)
@@ -396,12 +324,6 @@ public class StageSelect : MonoBehaviour
             StartCoroutine(CharSelect());
             return;
         }
-        if (stageShowing == 5)
-        {
-            theCamera.GetComponent<Animator>().Play("CharFromMoon");
-            StartCoroutine(CharSelect());
-            return;
-        }
     }
 
     IEnumerator ActiveSelect()
@@ -412,7 +334,6 @@ public class StageSelect : MonoBehaviour
 
     public void RightButton()
     {
-        MashAbility.showSpecial = false;
         if (stageShowing == 1)
         {
             theCamera.GetComponent<Animator>().Play("DesertToIce");
@@ -473,14 +394,11 @@ public class StageSelect : MonoBehaviour
         }
         if (stageShowing == 4)
         {
-            theCamera.GetComponent<Animator>().Play("TownToMoon");
-            stageShowing += 1;
-            if (GlobalUnlocks.moonUnlock == 0)
-            {
-                playButtonText.GetComponent<Text>().text = "LOCKED!";
-                pressPlay.GetComponent<Button>().interactable = false;
-                playLockout.SetActive(true);
-            }
+            theCamera.GetComponent<Animator>().Play("TownToDesert");
+            stageShowing = 1;
+            playButtonText.GetComponent<Text>().text = "PLAY STAGE";
+            pressPlay.GetComponent<Button>().interactable = true;
+            playLockout.SetActive(false);
             StartCoroutine(ButtonDelay());
             return;
         }
@@ -537,27 +455,6 @@ public class StageSelect : MonoBehaviour
             StartCoroutine(ButtonDelay());
             return;
         }
-        if (stageShowing == 5)
-        {
-            extraSpecialRight.SetActive(false);
-            theCamera.GetComponent<Animator>().Play("MoonToTown");
-            stageShowing -= 1;
-            if (GlobalUnlocks.townUnlock == 0)
-            {
-                playButtonText.GetComponent<Text>().text = "LOCKED!";
-                pressPlay.GetComponent<Button>().interactable = false;
-                playLockout.SetActive(true);
-            }
-            else
-            {
-                playButtonText.GetComponent<Text>().text = "PLAY STAGE";
-                pressPlay.GetComponent<Button>().interactable = true;
-                playLockout.SetActive(false);
-            }
-            StartCoroutine(ButtonDelay());
-            StartCoroutine(ChangeToFalse());
-            return;
-        }
     }
 
     IEnumerator ButtonDelay()
@@ -587,15 +484,9 @@ public class StageSelect : MonoBehaviour
             stageName.GetComponent<Text>().text = "ŞEHİR";
             stageToGoTo = 7;
         }
-        if(stageShowing == 5)
-        {
-            stageName.GetComponent<Text>().text = "AY";
-            canMoveToBlock = true;
-            stageToGoTo = 8;
-        }
         stageName.SetActive(true);
         pressPlay.SetActive(true);
-        if (stageShowing == 5)
+        if (stageShowing == 4)
         {
             rightArrow.SetActive(false);
         }
@@ -612,18 +503,12 @@ public class StageSelect : MonoBehaviour
         {
             leftArrow.SetActive(true);
         }
-        if (stageShowing == 1)
-        {
-            MashAbility.showSpecial = true;
-        }
         pressingButton = false;
     }
 
     IEnumerator CharSelect()
     {
-        MashAbility.showSpecial = false;
         buttonPress.Play();
-        extraSpecialRight.SetActive(false);
         rightArrow.SetActive(false);
         leftArrow.SetActive(false);
         stageName.SetActive(false);
@@ -702,84 +587,13 @@ public class StageSelect : MonoBehaviour
         SceneManager.LoadScene(3);
     }
 
-    IEnumerator ShowBlock()
-    {
-        yield return new WaitForSeconds(1);
-        extraSpecialRight.SetActive(true);
-    }
 
-    public void ExtraRight()
-    {
-        theCamera.GetComponent<Animator>().Play("MoonToBlock");
-        stageShowing = 1;
-        extraSpecialRight.SetActive(false);
-        StartCoroutine(BlockSeq());
-    }
 
-    IEnumerator BlockSeq()
-    {
-        rightArrow.SetActive(false);
-        leftArrow.SetActive(false);
-        stageName.SetActive(false);
-        pressPlay.SetActive(false);
-        extraSpecialRight.SetActive(false);
-        yield return new WaitForSeconds(1.1f);
-        blockBarrageOnly = true;
-        startingBlock = true;
-            stageName.GetComponent<Text>().text = "BLOCK BARRAGE";
-            stageToGoTo = 1;
-        stageName.SetActive(true);
-        extraSpecialLeft.SetActive(true);
-        extraSpecialPlay.SetActive(true);
-    }
 
-    public void PlayBlock()
-    {
-        pressPlay.SetActive(false);
-        fadeOut.SetActive(true);
-        StartCoroutine(FadeToBlocky());
-    }
 
-    IEnumerator FadeToBlocky()
-    {
-        startPress.Play();
-        extraSpecialLeft.SetActive(false);
-        extraSpecialPlay.SetActive(false);
-        yield return new WaitForSeconds(1);
-        loadText.SetActive(true);
-        SceneManager.LoadScene(12);
-    }
 
-    public void ExtraLeft()
-    {
-        theCamera.GetComponent<Animator>().Play("BlockToMoon");
-        stageShowing = 5;
-        extraSpecialLeft.SetActive(false);
-        extraSpecialPlay.SetActive(false);
-        StartCoroutine(BackToMoon());
-    }
 
-    IEnumerator BackToMoon()
-    {
-        rightArrow.SetActive(false);
-        leftArrow.SetActive(false);
-        stageName.SetActive(false);
-        pressPlay.SetActive(false);
-        yield return new WaitForSeconds(1.1f);
-        canMoveToBlock = true;
-        stageName.GetComponent<Text>().text = "MENTAL MOONBASE";
-        stageToGoTo = 8;
-        stageName.SetActive(true);
-        leftArrow.SetActive(true);
-        extraSpecialRight.SetActive(true);
-        pressPlay.SetActive(true);
-    }
 
-    IEnumerator ChangeToFalse()
-    {
-        yield return new WaitForSeconds(2);
-        showingBlock = false;
-    }
 
     IEnumerator ReleaseButtons()
     {
